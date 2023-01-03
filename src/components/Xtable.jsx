@@ -32,10 +32,12 @@ function Xtable() {
     async function fetchMyAPI() {
       // preloader
       setLoading(true);
+      //----------------
       let response = await fetch("https://dummyjson.com/users");
       response = await response.json();
       // preloader
       setLoading(false);
+      //----------------
       setData(response.users);
     }
     fetchMyAPI();
@@ -95,9 +97,10 @@ function Xtable() {
       ) : (
         <>
           <Container>
+            <h3 className="text-center mt-3">Function Table</h3>
             <Row className="text-center">
               {/*----------------------------input with dropdown------------------------ */}
-              <div className="input-field mt-3 mb-3 py-3 d-flex justify-content-between rounded">
+              <div className="input-field mb-3 py-3 d-flex justify-content-between rounded">
                 <div>
                   <input
                     type="text"
@@ -189,6 +192,12 @@ function Xtable() {
                   <Col>
                     <b>Image</b>
                   </Col>
+                  <Col>
+                    <b>Edit</b>
+                  </Col>
+                  <Col>
+                    <b>Delete</b>
+                  </Col>
                 </Row>
               </div>
               {filterData(data).map((itm) => {
@@ -210,6 +219,12 @@ function Xtable() {
                         <Col>{itm.university}</Col>
                         <Col className="table-img">
                           <img src={itm.image} alt="profile-img" />
+                        </Col>
+                        <Col>
+                          <button>Edit</button>
+                        </Col>
+                        <Col>
+                          <button>Delete</button>
                         </Col>
                       </Row>
                     </div>

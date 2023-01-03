@@ -3,6 +3,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Xtable.css";
 import { Container } from "react-bootstrap";
+//modal
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 // preloader
 import Spinner from "react-bootstrap/Spinner";
@@ -24,12 +27,23 @@ export default class ClassTable extends Component {
   }
 
   componentDidMount() {
+    //preloader
     this.setState({ loading: true });
     fetch("https://dummyjson.com/users")
       .then((response) => response.json())
       .then((res) => this.setState({ data: res.users }));
+    //preloader
     this.setState({ loading: false });
   }
+
+  //model
+  handleClose = () => {
+    this.setState({ show: false });
+  };
+  handleShow = (itm) => {
+    this.setState({ modelitem: itm });
+    this.setState({ show: true });
+  };
 
   handleChange = (event) => {
     // console.log("1", event.target);
@@ -39,6 +53,7 @@ export default class ClassTable extends Component {
     // console.log("3", this.state.search);
   };
 
+  // Function to filter the table data based on the search keywords
   filterData = (itm) => {
     return itm.filter((item) => {
       return (
@@ -77,7 +92,7 @@ export default class ClassTable extends Component {
         ) : (
           <>
             <Container>
-              Class Table
+              <h3 className="text-center mt-3">Class Table</h3>
               <Row className="text-center">
                 <div className="input-field mt-3 mb-3 py-3 d-flex justify-content-between rounded">
                   <div>
@@ -176,9 +191,9 @@ export default class ClassTable extends Component {
                       <div className="row-details text-break">
                         <Row
                           key={itm.id}
-                          //   onClick={() => {
-                          //     handleShow(itm);
-                          //   }}
+                          onClick={() => {
+                            this.handleShow(itm);
+                          }}
                         >
                           <Col>{itm.id}</Col>
                           <Col>{itm.firstName + " " + itm.lastName}</Col>
@@ -197,6 +212,104 @@ export default class ClassTable extends Component {
                 })}
               </Row>
             </Container>
+            {/*--------------------------Modal----------------------------------*/}
+            <Modal
+              show={this.state.show}
+              onHide={this.handleClose}
+              className="modal-xl text-sm-left"
+              // aria-labelledby="contained-modal-title-vcenter"
+              // centered
+            >
+              <Modal.Header closeButton>
+                <Modal.Title className="text-primary">User Details</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Container>
+                  <Row md={2}>
+                    <Col xs={6}>
+                      <b>Name: </b>
+                      {this.state.modelitem.firstName +
+                        " " +
+                        this.state.modelitem.lastName}
+                    </Col>
+
+                    <Col xs={6}>
+                      <b>Email: </b>
+                      {this.state.modelitem.email}
+                    </Col>
+
+                    <Col xs={6}>
+                      <b>Phone: </b>
+                      {this.state.modelitem.phone}
+                    </Col>
+
+                    {/* <Col xs={6}>
+                    <b>Address: </b>
+                    {modelitem.address.address}
+                  </Col> */}
+                    {/* 
+                  <Col xs={6}>
+                    <b>Company/Address: </b>
+                    {modelitem.company.address.address}
+                  </Col> */}
+
+                    <Col xs={6}>
+                      <strong>University: </strong>
+                      {this.state.modelitem.university}
+                    </Col>
+
+                    {/*---------------------------------------------------------------*/}
+
+                    <Col xs={6}>
+                      <strong>Age: </strong>
+                      {this.state.modelitem.age}
+                    </Col>
+
+                    <Col xs={6}>
+                      <strong>Gender: </strong>
+                      {this.state.modelitem.gender}
+                    </Col>
+
+                    <Col xs={6}>
+                      <strong>User-Agent: </strong>
+                      {this.state.modelitem.userAgent}
+                    </Col>
+
+                    <Col xs={6}>
+                      <strong>macAddress: </strong>
+                      {this.state.modelitem.macAddress}
+                    </Col>
+
+                    <Col xs={6}>
+                      <strong>User-Name: </strong>
+                      {this.state.modelitem.username}
+                    </Col>
+                    <Col xs={6}>
+                      <strong>Password: </strong>
+                      {this.state.modelitem.password}
+                    </Col>
+                    <Col xs={6}>
+                      <strong>Date Of Birth: </strong>
+                      {this.state.modelitem.birthDate}
+                    </Col>
+                    <Col xs={6}>
+                      <strong>Blood Group: </strong>
+                      {this.state.modelitem.bloodGroup}
+                    </Col>
+
+                    <Col className="table-img">
+                      <strong>Profile Picture: </strong>
+                      <img src={this.state.modelitem.image} alt="profile-img" />
+                    </Col>
+                  </Row>
+                </Container>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="dark" onClick={this.handleClose}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </>
         )}
       </>

@@ -15,14 +15,19 @@
   background: lightcyan;
 }
 
+.class-row-heading .col {
+  border: 1px solid gray;
+  background: lightcyan;
+}
+
 .input-field {
   border: 1px solid lightseagreen;
   background: lightgray;
 }
 
 .table-img img {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 }
 
 .preloader {
@@ -36,4 +41,9 @@
   font-size: 2rem;
   margin-top: 12px;
   padding: 20px;
+}
+
+.nlink {
+  display: flex;
+  justify-content: space-between;
 }
