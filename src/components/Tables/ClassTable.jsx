@@ -3,12 +3,15 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./Xtable.css";
 import { Container } from "react-bootstrap";
+import ClassPagination from "../Pagination/ClassPagination";
+import { Input } from "antd";
+
 //modal
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-// preloader
-import Spinner from "react-bootstrap/Spinner";
+//spinner aka preloader
+import { Space, Spin } from "antd";
 
 export default class ClassTable extends Component {
   constructor() {
@@ -19,21 +22,21 @@ export default class ClassTable extends Component {
 
       search: { firstName: "", email: "", university: "", phone: "" },
       //preloader
-      loading: false,
+      loading: true,
       //Modal
       show: false,
       modelitem: [],
+      //Pagination
+      currentPage: 1,
+      postsPerPage: 5,
     };
   }
 
+
   componentDidMount() {
-    //preloader
-    this.setState({ loading: true });
     fetch("https://dummyjson.com/users")
       .then((response) => response.json())
-      .then((res) => this.setState({ data: res.users }));
-    //preloader
-    this.setState({ loading: false });
+      .then((res) => this.setState({ loading: false, data: res.users }));
   }
 
   //model
@@ -46,11 +49,8 @@ export default class ClassTable extends Component {
   };
 
   handleChange = (event) => {
-    // console.log("1", event.target);
     const { name, value } = event.target;
-    // console.log("2", name, value);
     this.setState({ search: { ...this.state.search, [name]: value } });
-    // console.log("3", this.state.search);
   };
 
   // Function to filter the table data based on the search keywords
@@ -70,33 +70,44 @@ export default class ClassTable extends Component {
       );
     });
   };
+  
+ 
 
-  //Preloader
+  //change pages
+  // paginate = (pageNumber) => this.setState({ postsPerPage: pageNumber });
 
   render() {
-    return (
-      <>
-        {/*-------------preloader----------------- */}
-        {this.state.loading ? (
-          <>
-            <div className="preloader">
-              <Spinner
-                animation="border"
-                size="xl"
-                variant="success"
-                role="status"
-              />
-              <p>Loading...</p>
-            </div>
-          </>
-        ) : (
+     //Pagination
+  //Pagination Get Current Posts
+  // const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+  // const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+  // const filteredData = filterData(this.state.data);
+  // const currentPosts = filteredData.slice(indexOfFirstPost, indexOfLastPost);
+
+    // Preloader;
+    if (this.state.loading) {
+      return (
+        <>
+          <Space direction="vertical" className="spinLoader">
+            <Spin tip="Loading..." size="large" className="spinn" />
+          </Space>
+        </>
+      );
+    } else {
+      return (
+        <>
           <>
             <Container>
-              <h3 className="text-center mt-3">Class Table</h3>
-              <Row className="text-center">
+              <h3 className="text-center mt-3">Class <span>Table</span></h3>
+              <hr />
+              <Row className="text-center mb-5">
+                {/*----------------------------input with dropdown------------------------ */}
                 <div className="input-field mt-3 mb-3 py-3 d-flex justify-content-between rounded">
                   <div>
-                    <input
+                    <h6>Name:</h6>
+                    <Input
+                      allowClear
+                      className="py-2 me-5"
                       type="text"
                       list="data-name"
                       name="firstName"
@@ -113,7 +124,10 @@ export default class ClassTable extends Component {
                   </div>
                   {/*----------------------------------------2----------------------------------*/}
                   <div>
-                    <input
+                    <h6>Email Id:</h6>
+                    <Input
+                      allowClear
+                      className="py-2 me-5"
                       type="email"
                       list="data-email"
                       name="email"
@@ -128,7 +142,10 @@ export default class ClassTable extends Component {
                   </div>
                   {/*-----------------------------------------3---------------------------------*/}
                   <div>
-                    <input
+                    <h6>Number:</h6>
+                    <Input
+                      allowClear
+                      className="py-2 me-5"
                       type="text"
                       name="phone"
                       list="data-num"
@@ -143,7 +160,10 @@ export default class ClassTable extends Component {
                   </div>
                   {/*------------------------------------------4--------------------------------*/}
                   <div>
-                    <input
+                    <h6>University:</h6>
+                    <Input
+                      allowClear
+                      className="py-2 me-5"
                       type="text"
                       name="university"
                       list="data-university"
@@ -157,6 +177,13 @@ export default class ClassTable extends Component {
                     </datalist>
                   </div>
                 </div>
+                <hr />
+                {/*------------------pagination-----------------*/}
+                {/* <ClassPagination 
+                   postsPerPage={postsPerPage}
+                   totalPosts={filteredData.length}
+                   paginate={paginate}
+                /> */}
                 <div className="text-center row-heading">
                   <Row>
                     <Col>
@@ -311,8 +338,8 @@ export default class ClassTable extends Component {
               </Modal.Footer>
             </Modal>
           </>
-        )}
-      </>
-    );
+        </>
+      );
+    }
   }
 }

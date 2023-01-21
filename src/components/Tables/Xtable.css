@@ -15,14 +15,18 @@
   background: lightcyan;
 }
 
-.class-row-heading .col {
+.row-heading .col {
   border: 1px solid gray;
-  background: lightcyan;
+  background: lightgoldenrodyellow;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .input-field {
-  border: 1px solid lightseagreen;
-  background: lightgray;
+  border: 1px;
+  background: #3494E6;  
+  background: -webkit-linear-gradient(to right, #EC6EAD, #3494E6);  
+  background: linear-gradient(to right, #EC6EAD, #3494E6); 
 }
 
 .table-img img {
@@ -47,3 +51,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.text-center span{
+  color: lime;
+}
+
+/* .row-details .row:hover {
+  background: #e6e6e6;
+} */
