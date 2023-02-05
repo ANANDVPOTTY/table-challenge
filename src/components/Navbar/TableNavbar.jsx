@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "./tablenavbar.css";
 
 import avp from "../../../src/images/avp-logo-avp-.webp";
-import { NavDropdown, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {  OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function TableNavbar() {
   return (
@@ -32,38 +32,47 @@ function TableNavbar() {
         ))}
         {/*------Tool Tip to image-------*/}
         <Nav className="justify-content-end ms-auto me-5 fs-6">
-          <Nav.Item>
-            <Nav.Link href="/" className="text-white hvr-underline-reveal me-4">
+          <Nav.Item className="ms-3">
+            <Nav.Link href="/" className="text-white">
               Home »
             </Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item className="ms-3">
             <Nav.Link
               href="/ftable"
-              className="text-white hvr-underline-reveal me-4"
+              className="text-white"
             >
               Function-Table »
             </Nav.Link>
           </Nav.Item>
-          <Nav.Item>
+          <Nav.Item className="ms-3 me-3">
             <Nav.Link
               href="/ctable"
-              className="text-white hvr-underline-reveal me-3"
+              className="text-white"
             >
               Class-Table »
             </Nav.Link>
           </Nav.Item>
           {/*------------------------ Nav Dropdown ---------------------------*/}
-          <NavDropdown title="Other Links" id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/counter">Counter</NavDropdown.Item>
-            <NavDropdown.Item href="/rpg">R P G</NavDropdown.Item>
-            <NavDropdown.Item href="#action/3.3">Empty</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">Empty</NavDropdown.Item>
-          </NavDropdown>
+          <div className="dropdown show">
+              <a className="btn btn-secondary dropdown-toggle" 
+                href="#" role="button" 
+                id="dropdownMenuLink" 
+                data-bs-toggle="dropdown" 
+                aria-haspopup="true" 
+                aria-expanded="false"
+                >
+              Quick Links
+              </a>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a className="dropdown-item" href="/counter">Counter</a>
+                <a className="dropdown-item" href="/rpg">R P G</a>
+                <a className="dropdown-item" href="#">3</a>
+              </div>
+          </div>
         </Nav>
       </Navbar>
-    </>
+      </>
   );
 }
 
