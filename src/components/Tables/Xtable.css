@@ -24,10 +24,10 @@
 
 .input-field {
   border: 1px;
-  background: #3494E6;  
-  background: -webkit-linear-gradient(to right, #EC6EAD, #3494E6);  
-  background: linear-gradient(to right, #EC6EAD, #3494E6); 
-  }
+  background: #3494e6;
+  background: -webkit-linear-gradient(to right, #ec6ead, #3494e6);
+  background: linear-gradient(to right, #ec6ead, #3494e6);
+}
 
 .table-img img {
   width: 80px;
@@ -52,10 +52,38 @@
   justify-content: space-between;
 }
 
-.text-center span{
+.text-center span {
   color: lime;
+}
+
+.action_btns {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  background-color: white;
 }
 
 /* .row-details .row:hover {
   background: #e6e6e6;
 } */
+
+/* edit modal popup */
+.modal_inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.dlt_modal_btn {
+  display: flex;
+  justify-content: center;
+}
+
+.dlt_modal img {
+  margin-left: 130px;
+  width: 50%;
+  height: 50%;
+}
+
+.dlt_modal .modal-body {
+  text-align: center;
+}

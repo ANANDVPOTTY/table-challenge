@@ -9,6 +9,8 @@ import { Form, FormControl } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import FunctionPagination from "../Pagination/FunctionPagination";
 // import axios from "axios";
+// import dlt_img from "../../../src/images/dlt-img.png";
+import dlt_img from "../../../src/images/dlt-img.gif";
 
 //spinner aka preloader
 import { Space, Spin } from "antd";
@@ -20,18 +22,26 @@ function Xtable() {
   const [search, setSearch] = useState({
     firstName: "",
     email: "",
-    university: "",
+    gender: "",
     phone: "",
   });
 
-  // preloader
+  // Preloader
   const [loading, setLoading] = useState(false);
 
-  // model
+  // Model
   const [show, setShow] = useState(false);
   const [modelitem, setItems] = useState([]);
 
-  // pagination
+  // Edit Modal
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [dditModal, setEditModal] = useState([]);
+
+  // Delete Modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(5);
 
@@ -40,12 +50,13 @@ function Xtable() {
       // preloader
       setLoading(true);
       //----------------
-      let response = await fetch("https://dummyjson.com/users");
+      // let response = await fetch("https://dummyjson.com/users");
+      let response = await fetch("http://192.168.1.19:9000/Crud");
       response = await response.json();
       // preloader
       setLoading(false);
       //----------------
-      setData(response.users);
+      setData(response);
     }
     fetchMyAPI();
   }, []);
@@ -58,6 +69,24 @@ function Xtable() {
     setItems(itm);
     console.log(modelitem);
     setShow(true);
+  };
+
+  // Edit Modal
+  const handleCloseEdit = () => {
+    setShowEditModal(false);
+  };
+  const handleShowEdit = (itm) => {
+    setEditModal(itm);
+    setShowEditModal(true);
+  };
+
+  // Delete Modal
+  const handleCloseDelete = () => {
+    setShowDeleteModal(false);
+  };
+  const handleShowDelete = (itm) => {
+    setDeleteModal(itm);
+    setShowDeleteModal(true);
   };
 
   const handleChange = (event) => {
@@ -79,9 +108,9 @@ function Xtable() {
           .toLocaleLowerCase()
           .includes(search.email.toLocaleLowerCase()) &&
         item.phone.includes(search.phone) &&
-        item.university
+        item.gender
           .toLocaleLowerCase()
-          .includes(search.university.toLocaleLowerCase())
+          .includes(search.gender.toLocaleLowerCase())
       );
     });
   };
@@ -107,7 +136,9 @@ function Xtable() {
       ) : (
         <>
           <Container>
-            <h3 className="text-center mt-3">Function <span>Table</span></h3>
+            <h3 className="text-center mt-3">
+              Function <span>Table</span>
+            </h3>
             <hr />
             <Row className="text-center mb-3">
               {/*----------------------------input with dropdown------------------------ */}
@@ -170,7 +201,7 @@ function Xtable() {
                 </div>
                 {/*------------------------------------------4--------------------------------*/}
                 <div>
-                  <h6>University:</h6>
+                  <h6>Gender:</h6>
                   <Input
                     allowClear
                     className="p-2 me-5"
@@ -182,7 +213,7 @@ function Xtable() {
                   />
                   <datalist id="data-university">
                     {filterData(data).map((itm) => {
-                      return <option>{itm.university}</option>;
+                      return <option>{itm.gender}</option>;
                     })}
                   </datalist>
                 </div>
@@ -209,38 +240,97 @@ function Xtable() {
                     <b>Phone</b>
                   </Col>
                   <Col>
-                    <b>Address</b>
+                    <b>Age</b>
                   </Col>
                   <Col>
-                    <b>Company Address</b>
+                    <b>Gender</b>
                   </Col>
                   <Col>
-                    <b>University</b>
+                    <b>Blood Group</b>
                   </Col>
                   <Col>
                     <b>Image</b>
                   </Col>
+                  <Col>Action</Col>
                 </Row>
               </div>
               {currentPosts.map((itm) => {
                 return (
                   <>
                     <div className="row-details text-break">
-                      <Row
-                        key={itm.id}
-                        onClick={() => {
-                          handleShow(itm);
-                        }}
-                      >
-                        <Col>{itm.id}</Col>
-                        <Col>{itm.firstName + " " + itm.lastName}</Col>
-                        <Col>{itm.email}</Col>
-                        <Col>{itm.phone}</Col>
-                        <Col>{itm.address.address}</Col>
-                        <Col>{itm.company.address.address}</Col>
-                        <Col>{itm.university}</Col>
-                        <Col className="table-img">
+                      <Row key={itm.id}>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                        >
+                          {itm.id}
+                        </Col>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                        >
+                          {itm.firstName + " " + itm.lastName}
+                        </Col>
+                        <Col>
+                          <a href={"mailto:" + itm.email}>{itm.email}</a>
+                        </Col>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                        >
+                          {itm.phone}
+                        </Col>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                        >
+                          {itm.age}
+                        </Col>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                        >
+                          {itm.gender}
+                        </Col>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                        >
+                          {itm.bloodGroup}
+                        </Col>
+                        <Col
+                          onClick={() => {
+                            handleShow(itm);
+                          }}
+                          className="table-img"
+                        >
                           <img src={itm.image} alt="profile-img" />
+                        </Col>
+                        <Col className="action_btns">
+                          <Button
+                            variant="outline-dark"
+                            size="sm"
+                            onClick={() => {
+                              handleShowEdit(itm);
+                            }}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="outline-dark"
+                            size="sm"
+                            onClick={() => {
+                              handleShowDelete(itm);
+                            }}
+                          >
+                            Delete
+                          </Button>
                         </Col>
                       </Row>
                     </div>
@@ -249,7 +339,7 @@ function Xtable() {
               })}
             </Row>
           </Container>
-          {/*--------------------------Modal----------------------------------*/}
+          {/*--------------------------Table Full Detail Popup Modal----------------------------------*/}
           <Modal
             show={show}
             onHide={handleClose}
@@ -264,12 +354,6 @@ function Xtable() {
               <Container>
                 <Row md={2}>
                   <Col xs={6} className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckIndeterminate"
-                    />
                     <b
                       className="form-check-label ms-2"
                       for="flexCheckIndeterminate"
@@ -480,6 +564,95 @@ function Xtable() {
               </Container>
             </Modal.Footer>
           </Modal>
+          {/*--------------------------Table Full Detail Popup Modal Ends Here----------------------------------*/}
+
+          {/*--------------------------Table Edit Detail Popup Modal----------------------------------*/}
+          <Modal
+            className="modal-xl edit_modal"
+            show={showEditModal}
+            onHide={handleCloseEdit}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form className="modal_inputs">
+                <Form.Group className="pe-5">
+                  <Form.Label className="fs-6">First Name</Form.Label>
+                  <Form.Control type="text" placeholder="first name..." />
+                </Form.Group>
+
+                <Form.Group className="pe-5">
+                  <Form.Label className="fs-6">Email Id</Form.Label>
+                  <Form.Control type="email" placeholder="email..." />
+                </Form.Group>
+
+                <Form.Group className="pe-5">
+                  <Form.Label className="fs-6">Phone</Form.Label>
+                  <Form.Control type="number" placeholder="phone number..." />
+                </Form.Group>
+
+                <Form.Group className="pe-5">
+                  <Form.Label className="fs-6">Age</Form.Label>
+                  <Form.Control type="number" placeholder="age..." />
+                </Form.Group>
+
+                <Form.Group className="pe-5">
+                  <Form.Label className="fs-6">Gender</Form.Label>
+                  <Form.Select aria-label="Default select example">
+                    <option>Select Gender</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Other</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group className="pe-5">
+                  <Form.Label className="fs-6">Blood Group</Form.Label>
+                  <Form.Control type="text" placeholder="blood group..." />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseEdit}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleClose}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+          {/*--------------------------Table Edit Detail Popup Modal Ends Here----------------------------------*/}
+
+          {/*--------------------------Table Delete Detail Popup Modal----------------------------------*/}
+          <Modal
+            show={showDeleteModal}
+            onHide={handleCloseDelete}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+            className="dlt_modal"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Modal</Modal.Title>
+            </Modal.Header>
+            <img src={dlt_img} alt="" />
+            <Modal.Body>
+              "Are you sure you want to permanently delete the detail"
+            </Modal.Body>
+            <div className="dlt_modal_btn">
+              <Modal.Footer>
+                <Button variant="danger" onClick={handleCloseDelete}>
+                  Yes
+                </Button>
+                <Button variant="success" onClick={handleClose}>
+                  No
+                </Button>
+              </Modal.Footer>
+            </div>
+          </Modal>
+          {/*--------------------------Table Delete Detail Popup Modal Ends Here----------------------------------*/}
+
+          {/*------------------Pagination------------------------*/}
           <FunctionPagination
             postsPerPage={postsPerPage}
             totalPosts={filteredData.length}
